@@ -1,7 +1,7 @@
 defmodule NervesSystemGiant.MixProject do
   use Mix.Project
 
-  @github_organization "verypossible-labs"
+  @github_organization "verypossible"
   @app :nerves_system_giant
   @version Path.join(__DIR__, "VERSION")
            |> File.read!()
@@ -36,7 +36,7 @@ defmodule NervesSystemGiant.MixProject do
     [
       type: :system,
       artifact_sites: [
-        {:github_releases, "nerves-project/#{@app}"}
+        {:github_releases, "#{@github_organization}/#{@app}"}
       ],
       platform: Nerves.System.BR,
       platform_config: [
@@ -58,7 +58,7 @@ defmodule NervesSystemGiant.MixProject do
 
   defp description do
     """
-    Nerves System - SAM A5D2
+    Nerves System - Giant Board (ATSAMA5D2)
     """
   end
 
