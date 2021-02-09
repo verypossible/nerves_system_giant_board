@@ -1,0 +1,40 @@
+/dts-v1/;
+/plugin/;
+
+#include "sama5d2-pinfunc.h"
+
+/ {	
+
+	fragment@0 {
+		target = <&pioA>;
+		__overlay__ {
+			wififeatherwing_pins: wififeatherwing_pins {
+				pinmux = <PIN_PB0__GPIO>,
+						 <PIN_PD13__GPIO>,
+						 <PIN_PB3__IRQ>;
+				bias-disable;
+			};
+		};
+	};
+	
+	fragment@1 {
+		target = <&spi0>;
+		__overlay__ {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			cs-gpios = <&pioA PIN_PD20 0>;
+			status = "okay";
+			wilc_spi@0 {
+				compatible = "microchip,wilc1000";
+				spi-max-frequency = <32000000>;
+				reg = <0>;
+				pinctrl-names = "default";
+				pinctrl-0 = <&wififeatherwing_pins>;
+				irq-gpios = <&pioA PIN_PB3 0>; 
+				reset-gpios = <&pioA PIN_PB0 0>;
+				chip_en-gpios = <&pioA PIN_PD13 0>;
+				status = "okay";
+			};
+		};
+	};
+};
