@@ -27,7 +27,7 @@ defmodule NervesSystemGiantBoard.MixProject do
   end
 
   defp bootstrap(args) do
-    System.put_env("MIX_TARGET", "bbb")
+    System.put_env("MIX_TARGET", "giant")
     Application.start(:nerves_bootstrap)
     Mix.Task.run("loadconfig", args)
   end
@@ -48,7 +48,7 @@ defmodule NervesSystemGiantBoard.MixProject do
 
   defp deps do
     [
-      {:nerves, "~> 1.6", runtime: false},
+      {:nerves, "~> 1.5.4 or ~> 1.6.0 or ~> 1.7.4", runtime: false},
       {:nerves_system_br, "1.14.4", runtime: false},
       {:nerves_toolchain_armv7_nerves_linux_gnueabihf, "~> 1.4.0", runtime: false},
       {:nerves_system_linter, "~> 0.3.0", runtime: false},
