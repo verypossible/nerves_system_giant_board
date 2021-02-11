@@ -60,8 +60,8 @@ defmodule NervesSystemGiantBoard.MixProject do
       {:nerves, "~> 1.5.4 or ~> 1.6.0 or ~> 1.7.4", runtime: false},
       {:nerves_system_br, "1.14.4", runtime: false},
       {:nerves_toolchain_armv7_nerves_linux_gnueabihf, "~> 1.4.0", runtime: false},
-      {:nerves_system_linter, "~> 0.3.0", runtime: false},
-      {:ex_doc, "~> 0.18", only: [:dev, :test], runtime: false}
+      {:nerves_system_linter, "~> 0.4", runtime: false},
+      {:ex_doc, "~> 0.22", only: [:dev, :test], runtime: false}
     ]
   end
 
