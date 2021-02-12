@@ -27,7 +27,7 @@ defmodule NervesSystemGiantBoard.MixProject do
   end
 
   defp bootstrap(args) do
-    System.put_env("MIX_TARGET", "giant")
+    set_target()
     Application.start(:nerves_bootstrap)
     Mix.Task.run("loadconfig", args)
   end
@@ -100,5 +100,13 @@ defmodule NervesSystemGiantBoard.MixProject do
       "README.md",
       "VERSION"
     ]
+  end
+
+  defp set_target() do
+    if function_exported?(Mix, :target, 1) do
+      apply(Mix, :target, [:target])
+    else
+      System.put_env("MIX_TARGET", "target")
+    end
   end
 end
