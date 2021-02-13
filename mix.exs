@@ -3,6 +3,7 @@ defmodule NervesSystemGiantBoard.MixProject do
 
   @github_organization "verypossible"
   @app :nerves_system_giant_board
+  @source_url "https://github.com/#{@github_organization}/#{@app}"
   @version Path.join(__DIR__, "VERSION")
            |> File.read!()
            |> String.trim()
@@ -17,8 +18,13 @@ defmodule NervesSystemGiantBoard.MixProject do
       description: description(),
       package: package(),
       deps: deps(),
-      aliases: [loadconfig: [&bootstrap/1]],
-      docs: [extras: ["README.md"], main: "readme"]
+      aliases: [loadconfig: [&bootstrap/1], docs: ["docs", &copy_images/1]],
+      docs: docs(),
+      preferred_cli_env: %{
+        docs: :docs,
+        "hex.build": :docs,
+        "hex.publish": :docs
+      }
     ]
   end
 
@@ -61,7 +67,7 @@ defmodule NervesSystemGiantBoard.MixProject do
       {:nerves_system_br, "1.14.5", runtime: false},
       {:nerves_toolchain_armv7_nerves_linux_gnueabihf, "~> 1.4.0", runtime: false},
       {:nerves_system_linter, "~> 0.4", runtime: false},
-      {:ex_doc, "~> 0.22", only: [:dev, :test], runtime: false}
+      {:ex_doc, "~> 0.22", only: :docs, runtime: false}
     ]
   end
 
@@ -71,11 +77,21 @@ defmodule NervesSystemGiantBoard.MixProject do
     """
   end
 
+  defp docs do
+    [
+      extras: ["README.md", "CHANGELOG.md"],
+      main: "readme",
+      source_ref: "v#{@version}",
+      source_url: @source_url,
+      skip_undefined_reference_warnings_on: ["CHANGELOG.md"]
+    ]
+  end
+
   defp package do
     [
       files: package_files(),
       licenses: ["Apache 2.0"],
-      links: %{"Github" => "https://github.com/#{@github_organization}/#{@app}"}
+      links: %{"GitHub" => @source_url}
     ]
   end
 
@@ -100,6 +116,11 @@ defmodule NervesSystemGiantBoard.MixProject do
       "README.md",
       "VERSION"
     ]
+  end
+
+  # Copy the images referenced by docs, since ex_doc doesn't do this.
+  defp copy_images(_) do
+    File.cp_r("assets", "doc/assets")
   end
 
   defp set_target() do
