@@ -1,0 +1,30 @@
+From 6346194198c7b873c19610bb326a7dcdf6b02829 Mon Sep 17 00:00:00 2001
+From: Justin Schneck <jschneck@mac.com>
+Date: Sun, 21 Feb 2021 20:25:30 -0500
+Subject: [PATCH] Update gpio names
+
+---
+ drivers/pinctrl/pinctrl-at91-pio4.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/pinctrl/pinctrl-at91-pio4.c b/drivers/pinctrl/pinctrl-at91-pio4.c
+index 1c852293c..ee4d6cfd3 100644
+--- a/drivers/pinctrl/pinctrl-at91-pio4.c
++++ b/drivers/pinctrl/pinctrl-at91-pio4.c
+@@ -1089,9 +1089,10 @@ static int atmel_pinctrl_probe(struct platform_device *pdev)
+ 		atmel_pioctrl->pins[i]->line = line;
+ 
+ 		pin_desc[i].number = i;
+-		/* Pin naming convention: P(bank_name)(bank_pin_number). */
+-		pin_desc[i].name = kasprintf(GFP_KERNEL, "P%c%d",
+-					     bank + 'A', line);
++		/* Pin naming convention: gpioX, where X is the number of the line plus
++			 an offset for the bank that line is on (bank A = 0). */
++		pin_desc[i].name = kasprintf(GFP_KERNEL, "gpio%d",
++					     (bank * 32) + line);
+ 
+ 		group->name = group_names[i] = pin_desc[i].name;
+ 		group->pin = pin_desc[i].number;
+-- 
+2.25.1
+
